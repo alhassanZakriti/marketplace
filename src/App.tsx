@@ -17,17 +17,17 @@ import routerBindings, {
   UnsavedChangesNotifier,
   DocumentTitleHandler,
 } from "@refinedev/react-router";
-import { Layout } from "./components/layout";
 import "./App.css";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
 import { ForgotPassword } from "./pages/forgotPassword";
 import { authProvider } from "./authProvider";
+import Home from "./__root/pages/Home";
+import RootLayout from "./__root/RootLayout";
 
 function App() {
   return (
     <BrowserRouter>
-      <GitHubBanner />
       <RefineKbarProvider>
         <DevtoolsProvider>
           <Refine
@@ -42,7 +42,15 @@ function App() {
             }}
           >
             <Routes>
-              <Route index element={<WelcomePage />} />
+              <Route
+                element={
+                  <RootLayout>
+                    <Outlet />
+                  </RootLayout>
+                }
+              >
+                <Route index element={<Home />} />
+              </Route>
             </Routes>
             <RefineKbar />
             <UnsavedChangesNotifier />
