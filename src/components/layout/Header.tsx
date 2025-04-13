@@ -25,7 +25,7 @@ const Header = () => {
   return (
     <header className='z-[50] sticky top-0 p-2 items-center flex justify-between gap-1 px-6 lt-sm:px-2 shadow-lg shadow-[#00000007] bg-white'>
       <Logo className='horizontal' />
-      <div className='lt-sm:hidden '>
+      <div className='lt-lg:hidden '>
         {shouldShowSearchBar && <SearchBar />}
       </div>
       <div className='flex flex-col justify-center items-end gap-2'>
@@ -36,7 +36,7 @@ const Header = () => {
         </div>
         <div className='flex items-center gap-2'>
           <button className='btn flex gap-2'>
-            Get our app <Download size={24} />
+            <span className='lt-sm:hidden blocl'>Get our app</span> <Download size={24} />
           </button>
           <button className='btn-primary'>Login</button>
         </div>

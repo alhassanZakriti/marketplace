@@ -52,7 +52,7 @@ const SearchBar = () => {
   }
 
   return (
-    <div className="sm:flex hidden bg-white shadow-lg border border-gray-100 p-4 rounded-2xl transition-all duration-200 hover:shadow-xl max-w-4xl mx-auto relative items-center gap-4">
+    <div className="sm:flex hidden bg-white border border-gray-100 p-4 rounded-2xl transition-all duration-200 hover:shadow-xl max-w-4xl mx-auto relative items-center gap-4">
       {/* City Input */}
       <div className="relative flex-1 min-w-[180px]">
         <div className="absolute left-3 top-1/2 -translate-y-1/2 text-greentheme">
