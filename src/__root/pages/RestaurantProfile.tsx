@@ -1,10 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { Link } from "react-router-dom"
 import { Star, Wifi, Home, FileText, ChevronRight, ChevronLeft } from "lucide-react"
 
-import profilePic from '../../assets/profile.png'
+import profilePic from "../../assets/profile.png"
+import ReservationProcess from "../../components/restaurantFeatures/ReservationProcess"
 
 export default function RestaurantPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
@@ -76,9 +76,21 @@ export default function RestaurantPage() {
 
   const displayedMenuItems = showAllMenu ? menuItems : menuItems.slice(0, 4)
 
+  const [showReservationProcess, setShowReservationProcess] = useState(false)
+
+  type SelectedData = {
+    reserveDate: string
+    time: string
+    guests: number
+  }
+
+  const [bookingData, setBookingData] = useState<SelectedData>()
+
   return (
-    <div className="min-h-screen bg-softgreytheme">
-      
+    <div className="min-h-screen dark:text-white bg-softgreytheme dark:bg-bgdarktheme transition-colors duration-200">
+      {showReservationProcess && (
+        <ReservationProcess getDateTime={setBookingData} onClick={() => setShowReservationProcess(false)} />
+      )}
 
       <main className="container mx-auto px-4 py-6 max-w-6xl">
         {/* Image Gallery */}
@@ -91,28 +103,17 @@ export default function RestaurantPage() {
             />
             <button
               onClick={prevImage}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-whitetheme/80 rounded-full p-2 shadow-md hover:bg-whitetheme"
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-whitetheme/80 dark:bg-darkthemeitems/80 rounded-full p-2 shadow-md hover:bg-whitetheme dark:hover:bg-darkthemeitems transition-colors"
             >
-              <ChevronLeft className="h-5 w-5 text-blacktheme" />
+              <ChevronLeft className="h-5 w-5 text-blacktheme dark:text-textdarktheme" />
             </button>
             <button
               onClick={nextImage}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-whitetheme/80 rounded-full p-2 shadow-md hover:bg-whitetheme"
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-whitetheme/80 dark:bg-darkthemeitems/80 rounded-full p-2 shadow-md hover:bg-whitetheme dark:hover:bg-darkthemeitems transition-colors"
             >
-              <ChevronRight className="h-5 w-5 text-blacktheme" />
+              <ChevronRight className="h-5 w-5 text-blacktheme dark:text-textdarktheme" />
             </button>
           </div>
-          {/* <div className="absolute right-4 top-4 flex flex-col gap-2">
-            {foodImages.map((img, index) => (
-              <div key={index} className="h-16 w-16 rounded-md overflow-hidden shadow-md">
-                <img
-                  src={img || "/placeholder.svg"}
-                  alt={`Food item ${index + 1}`}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
-          </div> */}
           <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
             {mainImages.map((_, index) => (
               <button
@@ -125,15 +126,19 @@ export default function RestaurantPage() {
         </div>
 
         <div className="flex justify-center mb-6">
-          <button className="btn-primary">Book</button>
+          <button className="btn-primary" onClick={() => setShowReservationProcess(true)}>
+            Book
+          </button>
         </div>
 
         {/* Restaurant Info */}
         <div className="mb-12">
           <div className="flex justify-between items-start mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-blacktheme mb-2">The Fiver Fishermen</h1>
-              <div className="flex items-center gap-4 text-sm text-subblack mb-2">
+              <h1 className="text-3xl font-bold text-blacktheme dark:text-textdarktheme mb-2 transition-colors">
+                The Fiver Fishermen
+              </h1>
+              <div className="flex items-center gap-4 text-sm text-subblack dark:text-textdarktheme/80 mb-2 transition-colors">
                 <span className="flex items-center gap-1">
                   <span className="inline-block w-2 h-2 bg-greentheme rounded-full"></span>
                   Fish Restaurant
@@ -143,47 +148,53 @@ export default function RestaurantPage() {
                   Closed for Holidays
                 </span>
               </div>
-              <p className="text-subblack text-sm max-w-2xl">
+              <p className="text-subblack dark:text-textdarktheme/70 text-sm max-w-2xl transition-colors">
                 There are many variations of passages of Lorem Ipsum available, but the majority have suffered
                 alteration in some form, by injected humour, or randomised words which don't look even slightly
                 believable.
               </p>
             </div>
             <div className="flex flex-col items-center">
-              <div className="bg-whitetheme shadow-md rounded-lg p-3 text-center">
+              <div className="bg-whitetheme dark:bg-darkthemeitems shadow-md rounded-lg p-3 text-center transition-colors">
                 <div className="text-3xl font-bold text-yellowtheme">4.3</div>
                 <div className="flex justify-center">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <Star
                       key={star}
-                      className={`h-4 w-4 ${star <= 4 ? "text-yellowtheme fill-yellowtheme" : "text-softgreytheme"}`}
+                      className={`h-4 w-4 ${
+                        star <= 4
+                          ? "text-yellowtheme fill-yellowtheme"
+                          : "text-softgreytheme dark:text-textdarktheme/30"
+                      }`}
                     />
                   ))}
                 </div>
                 <div className="text-greentheme font-medium text-sm">Very Good</div>
-                <div className="text-subblack text-xs">Based on 120 reviews</div>
+                <div className="text-subblack dark:text-textdarktheme/70 text-xs transition-colors">
+                  Based on 120 reviews
+                </div>
               </div>
               <div className="mt-4 grid grid-cols-3 gap-2 text-center">
-                <div className="bg-whitetheme shadow-sm rounded p-2">
+                <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded p-2 transition-colors">
                   <div className="text-yellowtheme font-bold">4.2</div>
-                  <div className="text-xs text-subblack">Food</div>
+                  <div className="text-xs text-subblack dark:text-textdarktheme/70 transition-colors">Food</div>
                 </div>
-                <div className="bg-whitetheme shadow-sm rounded p-2">
+                <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded p-2 transition-colors">
                   <div className="text-yellowtheme font-bold">5.0</div>
-                  <div className="text-xs text-subblack">Service</div>
+                  <div className="text-xs text-subblack dark:text-textdarktheme/70 transition-colors">Service</div>
                 </div>
-                <div className="bg-whitetheme shadow-sm rounded p-2">
+                <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded p-2 transition-colors">
                   <div className="text-yellowtheme font-bold">4.8</div>
-                  <div className="text-xs text-subblack">Ambiance</div>
+                  <div className="text-xs text-subblack dark:text-textdarktheme/70 transition-colors">Ambiance</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="bg-whitetheme shadow-sm rounded-lg p-4 mb-8">
+          <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded-lg p-4 mb-8 transition-colors">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="font-bold text-lg">Tabla Offers</h3>
-              <span className="bg-softgreentheme text-greentheme text-xs px-2 py-1 rounded">
+              <h3 className="font-bold text-lg dark:text-textdarktheme transition-colors">Tabla Offers</h3>
+              <span className="bg-softgreentheme dark:bg-greentheme/20 text-greentheme dark:text-greentheme text-xs px-2 py-1 rounded transition-colors">
                 50% off the "à la carte" menu
               </span>
             </div>
@@ -196,25 +207,32 @@ export default function RestaurantPage() {
         {/* Menu Section */}
         <section className="mb-12">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-blacktheme">Our menu</h2>
+            <h2 className="text-2xl font-bold text-blacktheme dark:text-textdarktheme transition-colors">Our menu</h2>
             <div className="flex items-center gap-2">
-              <span className="text-sm bg-softgreentheme text-greentheme px-2 py-1 rounded">Average Price 47$</span>
+              <span className="text-sm bg-softgreentheme dark:bg-greentheme/20 text-greentheme px-2 py-1 rounded transition-colors">
+                Average Price 47$
+              </span>
             </div>
           </div>
 
-          <div className="bg-whitetheme shadow-sm rounded-lg p-6">
+          <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded-lg p-6 transition-colors">
             <div className="space-y-4">
               {displayedMenuItems.map((item, index) => (
-                <div key={index} className="flex justify-between items-center pb-2 border-b border-softgreytheme">
-                  <span className="font-medium">{item.name}</span>
-                  <span className="text-subblack">{item.price}</span>
+                <div
+                  key={index}
+                  className="flex justify-between items-center pb-2 border-b border-softgreytheme dark:border-textdarktheme/10 transition-colors"
+                >
+                  <span className="font-medium dark:text-textdarktheme transition-colors">{item.name}</span>
+                  <span className="text-subblack dark:text-textdarktheme/70 transition-colors">{item.price}</span>
                 </div>
               ))}
             </div>
 
             {!showAllMenu && menuItems.length > 4 && (
               <div className="mt-6 text-center">
-                <button className="btn-primary">View full menu</button>
+                <button className="btn-primary" onClick={() => setShowAllMenu(true)}>
+                  View full menu
+                </button>
               </div>
             )}
           </div>
@@ -222,10 +240,12 @@ export default function RestaurantPage() {
 
         {/* Location & Hours */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-blacktheme mb-4">Location & Hours Of Work</h2>
+          <h2 className="text-2xl font-bold text-blacktheme dark:text-textdarktheme mb-4 transition-colors">
+            Location & Hours Of Work
+          </h2>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-whitetheme shadow-sm rounded-lg overflow-hidden">
-              <div className="h-[250px] bg-softgreytheme relative">
+            <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded-lg overflow-hidden transition-colors">
+              <div className="h-[250px] bg-softgreytheme dark:bg-bgdarktheme2 relative transition-colors">
                 <img
                   src="/placeholder.svg?height=250&width=400"
                   alt="Map location"
@@ -233,8 +253,10 @@ export default function RestaurantPage() {
                 />
               </div>
               <div className="p-4">
-                <h3 className="font-bold mb-1">Rue Georges Sand</h3>
-                <p className="text-subblack mb-2">N°20 Val Fleuri, Casablanca, MA</p>
+                <h3 className="font-bold mb-1 dark:text-textdarktheme transition-colors">Rue Georges Sand</h3>
+                <p className="text-subblack dark:text-textdarktheme/70 mb-2 transition-colors">
+                  N°20 Val Fleuri, Casablanca, MA
+                </p>
                 <div className="space-y-1 text-sm">
                   <a
                     href="https://5-fishermen.com"
@@ -254,13 +276,23 @@ export default function RestaurantPage() {
               </div>
             </div>
 
-            <div className="bg-whitetheme shadow-sm rounded-lg p-4">
-              <h3 className="font-bold mb-3">Today 9:00 AM - 23:00 PM</h3>
+            <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded-lg p-4 transition-colors">
+              <h3 className="font-bold mb-3 dark:text-textdarktheme transition-colors">Today 9:00 AM - 23:00 PM</h3>
               <div className="space-y-2">
                 {hoursOfOperation.map((day, index) => (
                   <div key={index} className="flex justify-between text-sm">
-                    <span className={`${day.day === "Sunday" ? "font-medium" : ""}`}>{day.day}</span>
-                    <span className={`${day.day === "Sunday" ? "text-redtheme" : ""}`}>{day.hours}</span>
+                    <span
+                      className={`${day.day === "Sunday" ? "font-medium" : ""} dark:text-textdarktheme transition-colors`}
+                    >
+                      {day.day}
+                    </span>
+                    <span
+                      className={`${
+                        day.day === "Sunday" ? "text-redtheme" : "dark:text-textdarktheme/70"
+                      } transition-colors`}
+                    >
+                      {day.hours}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -270,26 +302,30 @@ export default function RestaurantPage() {
 
         {/* Extra Services */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-blacktheme mb-4">Extra Services</h2>
+          <h2 className="text-2xl font-bold text-blacktheme dark:text-textdarktheme mb-4 transition-colors">
+            Extra Services
+          </h2>
           <div className="grid grid-cols-3 gap-4">
-            <div className="bg-whitetheme shadow-sm rounded-lg p-4 flex items-center justify-center flex-col">
+            <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded-lg p-4 flex items-center justify-center flex-col transition-colors">
               <Home className="h-6 w-6 text-greentheme mb-2" />
-              <span className="text-sm font-medium">Home Delivery</span>
+              <span className="text-sm font-medium dark:text-textdarktheme transition-colors">Home Delivery</span>
             </div>
-            <div className="bg-whitetheme shadow-sm rounded-lg p-4 flex items-center justify-center flex-col">
+            <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded-lg p-4 flex items-center justify-center flex-col transition-colors">
               <Wifi className="h-6 w-6 text-greentheme mb-2" />
-              <span className="text-sm font-medium">High Wi-Fi Quality</span>
+              <span className="text-sm font-medium dark:text-textdarktheme transition-colors">High Wi-Fi Quality</span>
             </div>
-            <div className="bg-whitetheme shadow-sm rounded-lg p-4 flex items-center justify-center flex-col">
+            <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded-lg p-4 flex items-center justify-center flex-col transition-colors">
               <FileText className="h-6 w-6 text-greentheme mb-2" />
-              <span className="text-sm font-medium">Fixed Pre-order</span>
+              <span className="text-sm font-medium dark:text-textdarktheme transition-colors">Fixed Pre-order</span>
             </div>
           </div>
         </section>
 
         {/* User Photos */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-blacktheme mb-4">User Photos</h2>
+          <h2 className="text-2xl font-bold text-blacktheme dark:text-textdarktheme mb-4 transition-colors">
+            User Photos
+          </h2>
           <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
             {userPhotos.map((photo, index) => (
               <div key={index} className="relative aspect-square rounded-md overflow-hidden">
@@ -311,15 +347,18 @@ export default function RestaurantPage() {
         {/* Reviews */}
         <section className="mb-12">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-blacktheme">Reviews</h2>
-            <button className="border border-softgreytheme rounded px-3 py-1 text-sm flex items-center gap-1">
+            <h2 className="text-2xl font-bold text-blacktheme dark:text-textdarktheme transition-colors">Reviews</h2>
+            <button className="border border-softgreytheme dark:border-textdarktheme/20 rounded px-3 py-1 text-sm flex items-center gap-1 dark:text-textdarktheme transition-colors">
               Sort by <ChevronDown className="h-4 w-4" />
             </button>
           </div>
 
           <div className="space-y-4 mb-6">
             {reviews.map((review, index) => (
-              <div key={index} className="bg-whitetheme shadow-sm rounded-lg p-4">
+              <div
+                key={index}
+                className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded-lg p-4 transition-colors"
+              >
                 <div className="flex items-start gap-3">
                   <img
                     src={review.image || "/placeholder.svg"}
@@ -328,29 +367,33 @@ export default function RestaurantPage() {
                   />
                   <div>
                     <div className="flex items-center gap-2">
-                      <h4 className="font-medium">{review.name}</h4>
+                      <h4 className="font-medium dark:text-textdarktheme transition-colors">{review.name}</h4>
                       <div className="flex">
                         {[1, 2, 3, 4, 5].map((star) => (
                           <Star
                             key={star}
                             className={`h-3 w-3 ${
-                              star <= review.rating ? "text-yellowtheme fill-yellowtheme" : "text-softgreytheme"
+                              star <= review.rating
+                                ? "text-yellowtheme fill-yellowtheme"
+                                : "text-softgreytheme dark:text-textdarktheme/30"
                             }`}
                           />
                         ))}
                       </div>
                     </div>
-                    <p className="text-subblack text-sm mt-1">{review.comment}</p>
+                    <p className="text-subblack dark:text-textdarktheme/70 text-sm mt-1 transition-colors">
+                      {review.comment}
+                    </p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="bg-whitetheme shadow-sm rounded-lg p-4">
-            <h3 className="font-medium mb-3">Write your review</h3>
+          <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded-lg p-4 transition-colors">
+            <h3 className="font-medium mb-3 dark:text-textdarktheme transition-colors">Write your review</h3>
             <textarea
-              className="w-full border border-softgreytheme rounded-md p-3 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-greentheme focus:border-transparent"
+              className="w-full border border-softgreytheme dark:border-textdarktheme/20 dark:bg-bgdarktheme2 rounded-md p-3 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-greentheme focus:border-transparent dark:text-textdarktheme transition-colors"
               placeholder="Share your experience..."
             ></textarea>
             <div className="mt-3 flex justify-end">
@@ -358,16 +401,12 @@ export default function RestaurantPage() {
             </div>
           </div>
         </section>
-
-        
       </main>
-
-      
     </div>
   )
 }
 
-function ChevronDown(props:any) {
+function ChevronDown(props: any) {
   return (
     <svg
       {...props}

@@ -1,7 +1,7 @@
 
 const FeaturesTape = () => {
     return (
-      <div className="w-full text-white py-10 px-[10em] lt-lg:grid lt-lg:grid-cols-2 lt-lg:text-center gap-4 bg-greentheme mb-3 flex items-center justify-between flex-wrap">
+      <div className="w-full text-white py-10 px-[10em] lt-lg:grid lt-lg:grid-cols-2 lt-lg:text-center gap-4 bg-greentheme dark:bg-darkthemeitems mb-3 flex items-center justify-between flex-wrap">
         {/*Restaurants*/}
         <div className="flex gap-2 items-center">
             <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -20,11 +20,11 @@ export default function RestaurantCard({ id, name, address, rating, category, is
 
   return (
     <Link to={`/restaurant/${id}`} target="_blank">
-      <div className="group relative overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:shadow-xl">
+      <div className="group relative overflow-hidden rounded-2xl bg-white dark:bg-bgdarktheme2 shadow-md transition-all duration-300 hover:shadow-xl">
         {/* Image Container */}
         <div className="relative h-48 w-full overflow-hidden">
           <div
-            className={`absolute inset-0 bg-gray-200 ${isImageLoaded ? "opacity-0" : "opacity-100"} transition-opacity`}
+            className={`absolute inset-0 bg-gray-200 dark:bg-darkthemeitems ${isImageLoaded ? "opacity-0" : "opacity-100"} transition-opacity`}
           />
           <img
             src={imageUrl || "/placeholder.svg"}
@@ -47,7 +47,7 @@ export default function RestaurantCard({ id, name, address, rating, category, is
         {/* Content */}
         <div className="p-4">
           {/* Restaurant Name */}
-          <h3 className="mb-1 text-lg font-bold text-gray-900 group-hover:text-greentheme transition-colors">{name}</h3>
+          <h3 className="mb-1 text-lg font-bold text-gray-900 dark:text-white dark:group-hover:text-textdarktheme group-hover:text-greentheme transition-colors">{name}</h3>
 
           {/* Address */}
           <p className="mb-3 text-sm text-gray-500">{address}</p>
@@ -56,12 +56,12 @@ export default function RestaurantCard({ id, name, address, rating, category, is
           <div className="flex items-center justify-between">
             {/* Rating */}
             <div className="flex items-center gap-1">
-              <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-              <span className="font-medium text-amber-600">{rating.toFixed(1)}</span>
+              <Star className="h-4 w-4 fill-yellowtheme text-yellowtheme" />
+              <span className="font-medium text-yellowtheme">{rating.toFixed(1)}</span>
             </div>
 
             {/* Category */}
-            <div className="flex items-center gap-1 text-sm text-greentheme">
+            <div className="flex items-center gap-1 text-sm text-greentheme dark:text-white">
               <Tag className="h-3.5 w-3.5" />
               <span>{category}</span>
             </div>

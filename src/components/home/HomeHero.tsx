@@ -62,7 +62,7 @@ function HomeHero() {
       </div>
 
       {/* Bottom Curve */}
-      <div className="absolute bottom-0 left-0 right-0 h-8 bg-white rounded-t-[2rem] z-10"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-8 bg-white dark:bg-bgdarktheme rounded-t-[2rem] z-10"></div>
     </section>
   )
 }

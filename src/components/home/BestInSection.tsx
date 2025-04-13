@@ -62,8 +62,8 @@ const BestInSection = () => {
     return (
         <div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12'>
             <div className='text-center mb-12'>
-                <h1 className='text-3xl md:text-4xl font-bold text-gray-900 mb-4'>Best Restaurants in Rabat</h1>
-                <p className='text-lg text-gray-600 max-w-2xl mx-auto'>
+                <h1 className='text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4'>Best Restaurants in Rabat</h1>
+                <p className='text-lg text-gray-600 dark:text-softwhitetheme max-w-2xl mx-auto'>
                     Discover the top-rated restaurants in Rabat, offering a variety of cuisines and exceptional dining experiences. Whether you're craving Italian, Chinese, or Japanese, we've got you covered!
                 </p>
             </div>
