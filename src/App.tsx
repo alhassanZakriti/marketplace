@@ -1,10 +1,5 @@
 import {
-  Refine,
-  GitHubBanner,
-  WelcomePage,
-  Authenticated,
-  AuthPage,
-  ErrorComponent,
+  Refine
 } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
@@ -24,6 +19,7 @@ import { ForgotPassword } from "./pages/forgotPassword";
 import { authProvider } from "./authProvider";
 import Home from "./__root/pages/Home";
 import RootLayout from "./__root/RootLayout";
+import RestaurantProfile from "./__root/pages/RestaurantProfile";
 
 function App() {
   return (
@@ -34,6 +30,7 @@ function App() {
             dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
             routerProvider={routerBindings}
             authProvider={authProvider}
+            
             options={{
               syncWithLocation: true,
               warnWhenUnsavedChanges: true,
@@ -50,6 +47,7 @@ function App() {
                 }
               >
                 <Route index element={<Home />} />
+                <Route path="/restaurant/:id" element={<RestaurantProfile />} />
               </Route>
             </Routes>
             <RefineKbar />

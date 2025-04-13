@@ -33,7 +33,7 @@ function JoinSection() {
                   connect with hungry diners in your area.
                 </p>
 
-                <Link to="https://restaurant.tabla.ma/" className="btn-primary inline-flex items-center">
+                <Link to="https://restaurant.tabla.ma/" className="btn-primary inline-flex items-center" target="_blank">
                   Join Now
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>

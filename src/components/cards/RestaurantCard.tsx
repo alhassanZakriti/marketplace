@@ -19,7 +19,7 @@ export default function RestaurantCard({ id, name, address, rating, category, is
   const [isImageLoaded, setIsImageLoaded] = useState(false)
 
   return (
-    <Link to={`/restaurant/${id}`}>
+    <Link to={`/restaurant/${id}`} target="_blank">
       <div className="group relative overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:shadow-xl">
         {/* Image Container */}
         <div className="relative h-48 w-full overflow-hidden">
