@@ -107,11 +107,18 @@ export default function RestaurantPage() {
     setTouchEndX(null)
   }
 
+  type OfferType={
+    id: string
+    title: string
+    description: string
+    code: string
+  }
+
   type SelectedData = {
     reserveDate: string
     time: string
     guests: number
-    offer?: string |null
+    offer?: OfferType |null
   }
 
   const [bookingData, setBookingData] = useState<SelectedData>()
@@ -134,12 +141,42 @@ export default function RestaurantPage() {
     }
   }, [])
 
+  const offers = [
+    {
+      id: "1",
+      title: "50% Off Appetizers",
+      description: "Get 50% off all appetizers with your main course",
+      code: "APPETIZER50",
+    },
+    {
+      id: "2",
+      title: "Free Dessert",
+      description: "Enjoy a complimentary dessert with any main course",
+      code: "FREEDESSERT",
+    },
+    {
+      id: "3",
+      title: "2 for 1 Drinks",
+      description: "Buy one drink, get one free during your meal",
+      code: "DRINKS241",
+    },
+    {
+      id: "4",
+      title: "20% Off Total Bill",
+      description: "Enjoy 20% off your entire bill for dinner reservations",
+      code: "DINNER20",
+    },
+  ]
+
 
   return (
     <div className="min-h-screen dark:text-white bg-softgreytheme dark:bg-bgdarktheme transition-colors duration-200">
       {showReservationProcess && (
         <ReservationProcess
           getDateTime={setBookingData}
+          offers={offers}
+          noOffer={false}
+          dateTime={bookingData}
           onClick={() => setShowReservationProcess(false)}
         />
       )}
@@ -271,25 +308,25 @@ export default function RestaurantPage() {
               <h3 className="font-bold text-lg dark:text-textdarktheme transition-colors">Tabla Offers</h3>
             </div>
             <div className="space-y-4">
-              {[
-                { id: 1, title: "50% off the 'à la carte' menu" },
-                { id: 2, title: "Free dessert with every main course" },
-                { id: 3, title: "20% off for groups of 4 or more" },
-              ].map((offer) => (
+              {offers.map((offer) => (
                 <div
                   key={offer.id}
-                  className="flex justify-between items-center text-sm bg-softgreentheme/10 dark:bg-greentheme/10 p-3 rounded transition-colors"
+                  className="flex justify-between items-center text-sm bg-softgreentheme dark:bg-bgdarktheme p-3 rounded transition-colors"
                 >
-                  <span className="dark:text-textdarktheme">{offer.title}</span>
+                    <div className="flex flex-col">
+                      <span className="dark:text-textdarktheme text-greentheme font-bold">{offer.title}</span>
+                      <span className="text-sm dark:text-textdarktheme/70 text-subblack">{offer.description}</span>
+                      <span className="text-xs dark:text-textdarktheme/50 text-subblack/70">Code: {offer.code}</span>
+                    </div>
                   <button
-                    className="btn-primary"
+                    className="btn-special animate-none"
                     onClick={() => {
                       setShowReservationProcess(true)
                       setBookingData((prev) => ({
                         reserveDate: prev?.reserveDate || "",
                         time: prev?.time || "",
                         guests: prev?.guests || 0,
-                        offer: offer.title,
+                        offer: offer,
                       }))
                     }}
                   >

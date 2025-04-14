@@ -144,6 +144,7 @@ const SearchPage = () => {
         {showReservationProcess && (
             <ReservationProcess
             getDateTime={setData}
+            noOffer={true}
             onClick={() => setShowReservationProcess(false)}
             />
         )}
@@ -152,18 +153,18 @@ const SearchPage = () => {
                 <div className="bg-[#f9f9f9]  lg:w-[40vw] mx-auto dark:bg-darkthemeitems rounded-lg  mb-3 shadow-sm">
                     <div
                         onClick={() => setShowReservationProcess(true)}
-                        className="flex justify-around  items-center cursor-pointer p-4 hover:border-softgreentheme border-2 border-[#00000000] hover:bg-[#f0f0f0] dark:hover:bg-bgdarktheme2 rounded-md transition-colors"
+                        className="flex justify-around  items-center cursor-pointer p-1 h-[4em] hover:border-softgreentheme border-2 border-[#00000000] hover:bg-[#f0f0f0] dark:hover:bg-bgdarktheme2 rounded-md transition-colors"
                     >
                         <div className="flex items-center gap-2">
-                            <span className="font-[600] dark:text-white mr-2 text-black"><Calendar /></span>
+                            <span className="font-[600] dark:text-white mr-2 text-black"><Calendar size={27} className="rounded-[100%] w-8 h-8 btn-secondary p-2 m-0 text-yellowtheme"/></span>
                             <span className="font-medium text-black dark:text-white">{data.reserveDate || "----/--/--"}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <span className="font-[600] dark:text-white mr-2 text-black"><Clock /></span>
+                            <span className="font-[600] dark:text-white mr-2 text-black"><Clock size={27} className="rounded-[100%] w-8 h-8 btn-secondary p-2 m-0 text-yellowtheme"/></span>
                             <span className="font-medium text-black dark:text-white">{data.time || "--:--"}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <span className="font-[600] dark:text-white mr-2 text-black"><Users /></span>
+                            <span className="font-[600] dark:text-white mr-2 text-black"><Users size={27} className="rounded-[100%] w-8 h-8 btn-secondary p-2 m-0 text-yellowtheme"/></span>
                             <span className="font-medium text-black dark:text-white">{data.guests || "--"}</span>
                         </div>
                     </div>

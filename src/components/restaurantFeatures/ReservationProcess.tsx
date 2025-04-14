@@ -9,56 +9,41 @@ type SelectedData = {
   reserveDate: string
   time: string
   guests: number
-  offer?: string | null
+  offer?: Offer | null
+}
+
+type Offer = {
+  id: string
+  title: string
+  description: string
+  code: string
 }
 
 type ReservationProcessProps = {
   onClick: () => void
   getDateTime: (data: SelectedData) => void
+  noOffer?: boolean
   maxGuests?: number
   minGuests?: number
+  offers?: Offer[]
+  dateTime?: SelectedData
 }
 
-// Sample offers data
-const offers = [
-  {
-    id: "1",
-    title: "50% Off Appetizers",
-    description: "Get 50% off all appetizers with your main course",
-    code: "APPETIZER50",
-  },
-  {
-    id: "2",
-    title: "Free Dessert",
-    description: "Enjoy a complimentary dessert with any main course",
-    code: "FREEDESSERT",
-  },
-  {
-    id: "3",
-    title: "2 for 1 Drinks",
-    description: "Buy one drink, get one free during your meal",
-    code: "DRINKS241",
-  },
-  {
-    id: "4",
-    title: "20% Off Total Bill",
-    description: "Enjoy 20% off your entire bill for dinner reservations",
-    code: "DINNER20",
-  },
-]
+
 
 const ReservationProcess: React.FC<ReservationProcessProps> = (props) => {
   const [activeTab, setActiveTab] = useState<"date" | "time" | "guest" | "offers" | "confirm" | null>("date")
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [selectedTime, setSelectedTime] = useState<string | null>(null)
   const [selectedGuests, setSelectedGuests] = useState<number | null>(null)
-  const [selectedOffer, setSelectedOffer] = useState<string | null>(null)
-  const [selectedData, setSelectedData] = useState<SelectedData>({
+  const [selectedOffer, setSelectedOffer] = useState<string | null>(props.dateTime?.offer?.id || null)
+  const [selectedData, setSelectedData] = useState<SelectedData>(props.dateTime || {
     reserveDate: "",
     time: "",
     guests: 0,
     offer: null,
-  })
+  }
+  )
 
   const handleDateClick = (day: Date) => {
     setSelectedDate(day)
@@ -76,12 +61,18 @@ const ReservationProcess: React.FC<ReservationProcessProps> = (props) => {
   const handleGuestClick = (guest: number) => {
     setSelectedGuests(guest)
     setSelectedData((prevData) => ({ ...prevData, guests: guest }))
-    setActiveTab("offers")
+    if (props.noOffer) {
+      setActiveTab("confirm")
+    }
+    else {
+      setActiveTab("offers")
+    }
   }
 
   const handleOfferClick = (offerId: string) => {
     setSelectedOffer(offerId)
-    setSelectedData((prevData) => ({ ...prevData, offer: offerId }))
+    const selectedOfferObject = props.offers?.find((offer) => offer.id === offerId) || null
+    setSelectedData((prevData) => ({ ...prevData, offer: selectedOfferObject }))
   }
 
   const handleSkipOffers = () => {
@@ -131,13 +122,15 @@ const ReservationProcess: React.FC<ReservationProcessProps> = (props) => {
           >
             Guest
           </span>
+          {!props.noOffer
+          &&
           <span
             className={activeTab === "offers" ? "activetabb" : "p-[10px]"}
             onClick={() => setActiveTab("offers")}
             id="offers"
           >
             Offers
-          </span>
+          </span>}
         </div>
 
         {activeTab === "date" && (
@@ -247,7 +240,10 @@ const ReservationProcess: React.FC<ReservationProcessProps> = (props) => {
             </div>
             <div className="h-[284px] overflow-y-auto px-[20px] py-[10px]">
               <div className="space-y-3">
-                {offers.map((offer) => (
+                {props.offers?.length === 0 && (
+                  <div className="text-center text-gray-500 dark:text-textdarktheme/70">No offers available</div>
+                )}
+                {props.offers?.map((offer) => (
                   <div
                     key={offer.id}
                     onClick={() => handleOfferClick(offer.id)}
@@ -332,10 +328,10 @@ const ReservationProcess: React.FC<ReservationProcessProps> = (props) => {
               >
                 <div className="font-medium text-greentheme">Selected Offer:</div>
                 <div className={isDarkMode ? "text-white" : "text-gray-800"}>
-                  {offers.find((o) => o.id === selectedOffer)?.title}
+                  {props.offers?.find((o) => o.id === selectedOffer)?.title}
                 </div>
                 <div className="text-xs mt-1 text-gray-500 dark:text-gray-400">
-                  Code: {offers.find((o) => o.id === selectedOffer)?.code}
+                  Code: {props.offers?.find((o) => o.id === selectedOffer)?.code}
                 </div>
               </div>
             )}

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Download, Moon, Sun } from "lucide-react"
 import Logo from "./Logo"
 import SearchBar from "../search/SearchBar"
+import { useLocation } from "react-router"
 
 const Header = () => {
   const [shouldShowSearchBar, setShouldShowSearchBar] = useState(false)
@@ -28,9 +29,11 @@ const Header = () => {
     }
   }, [darkMode])
 
+  const {pathname} = useLocation()
+
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 500) {
+      if (window.scrollY > 500 || (pathname === "/search" && window.scrollY > 200)) { 
         setShouldShowSearchBar(true)
       } else {
         setShouldShowSearchBar(false)

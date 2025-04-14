@@ -31,7 +31,7 @@ const RestaurantList: React.FC<RestaurantListProps> = ({ restaurants, onHover })
           onMouseEnter={() => onHover(restaurant.id)}
           onMouseLeave={() => onHover("")}
         >
-          <Link to={`/restaurant/${restaurant.id}`} className="flex flex-col sm:flex-row">
+          <Link to={`/restaurant/${restaurant.id}`} target="_blank" className="flex flex-col sm:flex-row">
             {/* Restaurant Image */}
             <div className="w-full sm:w-1/3 h-48 sm:h-auto relative">
               <img
