@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Star, Wifi, Home, FileText, ChevronRight, ChevronLeft } from "lucide-react"
 
 import profilePic from "../../assets/profile.png"
@@ -9,19 +9,22 @@ import ReservationProcess from "../../components/restaurantFeatures/ReservationP
 export default function RestaurantPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [showAllMenu, setShowAllMenu] = useState(false)
+  const [showReservationProcess, setShowReservationProcess] = useState(false)
+  const [touchStartX, setTouchStartX] = useState<number | null>(null)
+  const [touchEndX, setTouchEndX] = useState<number | null>(null)
 
   const mainImages = [
-    "https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3",
+    "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3",
+    "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3",
   ]
 
   const userPhotos = [
-    "https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1537047902294-62a40c20a6ae?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3",
+    "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3",
+    "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3",
+    "https://images.unsplash.com/photo-1537047902294-62a40c20a6ae?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3",
+    "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3",
   ]
 
   const menuItems = [
@@ -71,31 +74,95 @@ export default function RestaurantPage() {
   }
 
   const prevImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + mainImages.length) % mainImages.length)
+    setCurrentImageIndex(
+      (prevIndex) => (prevIndex - 1 + mainImages.length) % mainImages.length
+    )
   }
 
   const displayedMenuItems = showAllMenu ? menuItems : menuItems.slice(0, 4)
 
-  const [showReservationProcess, setShowReservationProcess] = useState(false)
+  // Swipe event handlers for the image gallery
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchStartX(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchEndX(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchEnd = () => {
+    if (touchStartX === null || touchEndX === null) return
+    const swipeDistance = touchStartX - touchEndX
+    const swipeThreshold = 50 // adjust threshold as needed
+
+    if (Math.abs(swipeDistance) > swipeThreshold) {
+      if (swipeDistance > 0) {
+        nextImage()
+      } else {
+        prevImage()
+      }
+    }
+    // Reset the touch positions
+    setTouchStartX(null)
+    setTouchEndX(null)
+  }
 
   type SelectedData = {
     reserveDate: string
     time: string
     guests: number
+    offer?: string |null
   }
 
   const [bookingData, setBookingData] = useState<SelectedData>()
 
+  const [shouldShowBook, setShouldShowBook] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 500) {
+        setShouldShowBook(true)
+      } else {
+        setShouldShowBook(false)
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [])
+
+
   return (
     <div className="min-h-screen dark:text-white bg-softgreytheme dark:bg-bgdarktheme transition-colors duration-200">
       {showReservationProcess && (
-        <ReservationProcess getDateTime={setBookingData} onClick={() => setShowReservationProcess(false)} />
+        <ReservationProcess
+          getDateTime={setBookingData}
+          onClick={() => setShowReservationProcess(false)}
+        />
       )}
+
+        {shouldShowBook&&<div className="relative flex justify-center mb-6">
+          <button
+            className=" fixed z-[300] bottom-[40px] shadow-xl w-[20em] btn-special"
+            onClick={() => setShowReservationProcess(true)}
+          >
+            Book Your Table
+          </button>
+        </div>}
 
       <main className="container mx-auto px-4 py-6 max-w-6xl">
         {/* Image Gallery */}
         <div className="relative mb-8 rounded-xl overflow-hidden">
-          <div className="relative h-[400px] w-full">
+          {/* Image container with touch/swipe support */}
+          <div
+            className="relative h-[400px] w-full"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
             <img
               src={mainImages[currentImageIndex] || "/placeholder.svg"}
               alt="Restaurant interior"
@@ -114,26 +181,34 @@ export default function RestaurantPage() {
               <ChevronRight className="h-5 w-5 text-blacktheme dark:text-textdarktheme" />
             </button>
           </div>
-          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-            {mainImages.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentImageIndex(index)}
-                className={`h-2 w-2 rounded-full ${index === currentImageIndex ? "bg-whitetheme" : "bg-whitetheme/50"}`}
-              />
-            ))}
+          {/* Scrollable dots container */}
+          <div className="absolute bottom-4 left-0 right-0 overflow-x-auto scrollbar-hide">
+            <div className="flex justify-center gap-2 mx-auto px-4" style={{ width: 'fit-content' }}>
+              {mainImages.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentImageIndex(index)}
+                  className={`flex-shrink-0 h-2 w-2 rounded-full ${
+                    index === currentImageIndex ? "bg-whitetheme" : "bg-whitetheme/50"
+                  }`}
+                />
+              ))}
+            </div>
           </div>
         </div>
 
         <div className="flex justify-center mb-6">
-          <button className="btn-primary" onClick={() => setShowReservationProcess(true)}>
+          <button
+            className="btn-special w-[20em]"
+            onClick={() => setShowReservationProcess(true)}
+          >
             Book
           </button>
         </div>
 
         {/* Restaurant Info */}
-        <div className="mb-12">
-          <div className="flex justify-between items-start mb-4">
+        <div className="mb-12 ">
+          <div className="flex justify-between lt-sm:flex-col lt-sm:items-center lt-sm:gap-5 items-start mb-4">
             <div>
               <h1 className="text-3xl font-bold text-blacktheme dark:text-textdarktheme mb-2 transition-colors">
                 The Fiver Fishermen
@@ -194,12 +269,34 @@ export default function RestaurantPage() {
           <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded-lg p-4 mb-8 transition-colors">
             <div className="flex justify-between items-center mb-4">
               <h3 className="font-bold text-lg dark:text-textdarktheme transition-colors">Tabla Offers</h3>
-              <span className="bg-softgreentheme dark:bg-greentheme/20 text-greentheme dark:text-greentheme text-xs px-2 py-1 rounded transition-colors">
-                50% off the "à la carte" menu
-              </span>
             </div>
-            <div className="flex items-center gap-2 text-sm">
-              <button className="btn-primary">Make a reservation with this offer</button>
+            <div className="space-y-4">
+              {[
+                { id: 1, title: "50% off the 'à la carte' menu" },
+                { id: 2, title: "Free dessert with every main course" },
+                { id: 3, title: "20% off for groups of 4 or more" },
+              ].map((offer) => (
+                <div
+                  key={offer.id}
+                  className="flex justify-between items-center text-sm bg-softgreentheme/10 dark:bg-greentheme/10 p-3 rounded transition-colors"
+                >
+                  <span className="dark:text-textdarktheme">{offer.title}</span>
+                  <button
+                    className="btn-primary"
+                    onClick={() => {
+                      setShowReservationProcess(true)
+                      setBookingData((prev) => ({
+                        reserveDate: prev?.reserveDate || "",
+                        time: prev?.time || "",
+                        guests: prev?.guests || 0,
+                        offer: offer.title,
+                      }))
+                    }}
+                  >
+                    Select Offer
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -209,7 +306,7 @@ export default function RestaurantPage() {
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-bold text-blacktheme dark:text-textdarktheme transition-colors">Our menu</h2>
             <div className="flex items-center gap-2">
-              <span className="text-sm bg-softgreentheme dark:bg-greentheme/20 text-greentheme px-2 py-1 rounded transition-colors">
+              <span className="text-sm bg-softgreentheme dark:bg-greentheme/20 text-greentheme dark:text-white px-2 py-1 rounded transition-colors">
                 Average Price 47$
               </span>
             </div>
@@ -247,7 +344,7 @@ export default function RestaurantPage() {
             <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded-lg overflow-hidden transition-colors">
               <div className="h-[250px] bg-softgreytheme dark:bg-bgdarktheme2 relative transition-colors">
                 <img
-                  src="/placeholder.svg?height=250&width=400"
+                  src="https://i0.wp.com/www.cssscript.com/wp-content/uploads/2018/03/Simple-Location-Picker.png?fit=561%2C421&ssl=1"
                   alt="Map location"
                   className="w-full h-full object-cover"
                 />
@@ -262,14 +359,14 @@ export default function RestaurantPage() {
                     href="https://5-fishermen.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-greentheme hover:underline block"
+                    className="text-greentheme dark:text-white hover:underline block"
                   >
                     www.5-fishermen.com
                   </a>
-                  <a href="mailto:contact@5-fishermen.com" className="text-greentheme hover:underline block">
+                  <a href="mailto:contact@5-fishermen.com" className="dark:text-white text-greentheme hover:underline block">
                     contact@5-fishermen.com
                   </a>
-                  <a href="tel:+212547547678" className="text-greentheme hover:underline block">
+                  <a href="tel:+212547547678" className="text-greentheme dark:text-white hover:underline block">
                     +212 (547) 547-678
                   </a>
                 </div>
@@ -281,16 +378,10 @@ export default function RestaurantPage() {
               <div className="space-y-2">
                 {hoursOfOperation.map((day, index) => (
                   <div key={index} className="flex justify-between text-sm">
-                    <span
-                      className={`${day.day === "Sunday" ? "font-medium" : ""} dark:text-textdarktheme transition-colors`}
-                    >
+                    <span className={`${day.day === "Sunday" ? "font-medium" : ""} dark:text-textdarktheme transition-colors`}>
                       {day.day}
                     </span>
-                    <span
-                      className={`${
-                        day.day === "Sunday" ? "text-redtheme" : "dark:text-textdarktheme/70"
-                      } transition-colors`}
-                    >
+                    <span className={`${day.day === "Sunday" ? "text-redtheme" : "dark:text-textdarktheme/70"} transition-colors`}>
                       {day.hours}
                     </span>
                   </div>
@@ -306,15 +397,15 @@ export default function RestaurantPage() {
             Extra Services
           </h2>
           <div className="grid grid-cols-3 gap-4">
-            <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded-lg p-4 flex items-center justify-center flex-col transition-colors">
+            <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded-lg p-4 flex items-center justify-center text-center flex-col transition-colors">
               <Home className="h-6 w-6 text-greentheme mb-2" />
               <span className="text-sm font-medium dark:text-textdarktheme transition-colors">Home Delivery</span>
             </div>
-            <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded-lg p-4 flex items-center justify-center flex-col transition-colors">
+            <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded-lg p-4 flex items-center justify-center text-center flex-col  transition-colors">
               <Wifi className="h-6 w-6 text-greentheme mb-2" />
               <span className="text-sm font-medium dark:text-textdarktheme transition-colors">High Wi-Fi Quality</span>
             </div>
-            <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded-lg p-4 flex items-center justify-center flex-col transition-colors">
+            <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded-lg p-4 flex items-center justify-center text-center flex-col transition-colors">
               <FileText className="h-6 w-6 text-greentheme mb-2" />
               <span className="text-sm font-medium dark:text-textdarktheme transition-colors">Fixed Pre-order</span>
             </div>

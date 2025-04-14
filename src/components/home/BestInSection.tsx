@@ -67,29 +67,58 @@ const BestInSection = () => {
                     Discover the top-rated restaurants in Rabat, offering a variety of cuisines and exceptional dining experiences. Whether you're craving Italian, Chinese, or Japanese, we've got you covered!
                 </p>
             </div>
-            
-            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'>
-                {restaurants.map((restaurant) => (
-                    <RestaurantCard
-                        key={restaurant.id}
-                        id={restaurant.id}
-                        name={restaurant.name}
-                        address={restaurant.address}
-                        rating={restaurant.rating}
-                        category={restaurant.category}
-                        isOpen={restaurant.isOpen}
-                        imageUrl={restaurant.imageUrl}
-                    />
-                ))}
-            </div>
-            
-            <div className='text-center mt-12'>
-                <button className='btn-primary'>
-                    View All Restaurants
-                </button>
-            </div>
-        </div>
-    )
-}
+
+          {/* Mobile horizontal scroll view */}
+           <div className="relative mb-6 sm:hidden">
+             <div className="flex overflow-x-auto pb-4 snap-x snap-mandatory no-scrollbar -mx-4 px-4 ">
+               {restaurants.map((restaurant) => (
+                 <div key={restaurant.id} className="flex-none w-[85%] mr-4 snap-start">
+                   <RestaurantCard
+                     id={restaurant.id}
+                     name={restaurant.name}
+                     address={restaurant.address}
+                     rating={restaurant.rating}
+                     category={restaurant.category}
+                     isOpen={restaurant.isOpen}
+                     imageUrl={restaurant.imageUrl}
+                   />
+                 </div>
+               ))}
+             </div>
+     
+             {/* Scroll indicator dots */}
+             <div className="flex justify-center mt-4 space-x-2">
+               {restaurants.map((_, index) => (
+                 <div
+                   key={index}
+                   className={`h-2 w-2 rounded-full ${index === 0 ? "bg-greentheme" : "bg-gray-300 dark:bg-gray-600"}`}
+                 />
+               ))}
+             </div>
+           </div>
+     
+           {/* Desktop grid view */}
+           <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+             {restaurants.map((restaurant) => (
+               <RestaurantCard
+                 key={restaurant.id}
+                 id={restaurant.id}
+                 name={restaurant.name}
+                 address={restaurant.address}
+                 rating={restaurant.rating}
+                 category={restaurant.category}
+                 isOpen={restaurant.isOpen}
+                 imageUrl={restaurant.imageUrl}
+               />
+             ))}
+           </div>
+     
+           <div className="text-center mt-12">
+             <button className="btn-primary">View All Restaurants</button>
+           </div>
+         </div>
+       )
+     }
+     
 
 export default BestInSection

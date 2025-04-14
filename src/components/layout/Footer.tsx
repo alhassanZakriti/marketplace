@@ -36,7 +36,7 @@ const Footer = () => {
             <ul className="space-y-2">
               <li><a href="#" className="text-gray-400 hover:text-white transition">Restaurants</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition">Foods</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition">Register your restaurant</a></li>
+              <li><a href="https://restaurant.tabla.ma/" target='_blank' className="text-gray-400 hover:text-white transition">Register your restaurant</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition">Create an account</a></li>
             </ul>
           </div>

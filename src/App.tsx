@@ -20,6 +20,8 @@ import { authProvider } from "./authProvider";
 import Home from "./__root/pages/Home";
 import RootLayout from "./__root/RootLayout";
 import RestaurantProfile from "./__root/pages/RestaurantProfile";
+import SearchBar from "./components/search/SearchBar";
+import SearchPage from "./__root/pages/Search";
 
 function App() {
   return (
@@ -48,6 +50,7 @@ function App() {
               >
                 <Route index element={<Home />} />
                 <Route path="/restaurant/:id" element={<RestaurantProfile />} />
+                <Route path="/search" element={<SearchPage />}/>
               </Route>
             </Routes>
             <RefineKbar />

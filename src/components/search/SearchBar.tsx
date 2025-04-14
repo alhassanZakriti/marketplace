@@ -2,11 +2,17 @@
 
 import type React from "react"
 import { useState, useRef } from "react"
-import { Link } from "react-router"
+import { Link, useSearchParams } from "react-router"
 
 const SearchBar = () => {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [cityTerm, setCityTerm] = useState("")
+    const [searchParams, setSearchParams] = useSearchParams()
+    const cityParam = searchParams.get("city")
+    const termParam = searchParams.get("term")
+    const city = cityParam || "Rabat"
+    const term = termParam || ""
+
+  const [searchTerm, setSearchTerm] = useState(term)
+  const [cityTerm, setCityTerm] = useState(city)
   const [isFocused, setIsFocused] = useState(false)
   const [isCityFocused, setIsCityFocused] = useState(false)
 
@@ -167,7 +173,7 @@ const SearchBar = () => {
       </div>
 
       {/* Book Button */}
-      <Link to={""} className="btn-primary">
+      <Link to={`/search?city=${cityTerm}&term=${searchTerm}`} className="btn-primary">
         Book Now
       </Link>
     </div>
