@@ -33,7 +33,7 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 500 || (pathname === "/search" && window.scrollY > 200)) { 
+      if (window.scrollY > 500 || (pathname.includes("search") && window.scrollY > 180)) { 
         setShouldShowSearchBar(true)
       } else {
         setShouldShowSearchBar(false)
