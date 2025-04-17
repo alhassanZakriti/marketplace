@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import SearchBar from "../../components/search/SearchBar"
 import SearchBarMobile from "../../components/search/SearchBarMobile"
-import FiltersSection from "../../components/search/FiltersSection"
+import FiltersSection, { type FilterOptions } from "../../components/search/FiltersSection"
 import RestaurantList from "../../components/search/RestaurantList"
 import MapSection from "../../components/search/MapSection"
 import Pagination from "../../components/search/Pagination"
@@ -22,7 +22,7 @@ const RESTAURANTS = [
     category: "Italian",
     isOpen: true,
     priceRange: "$$",
-    distance: "0.8 mi",
+    distance: "0.8",
     coordinates: { lat: 33.589886, lng: -7.603869 },
   },
   {
@@ -34,7 +34,7 @@ const RESTAURANTS = [
     category: "Japanese",
     isOpen: true,
     priceRange: "$$$",
-    distance: "1.2 mi",
+    distance: "1.2",
     coordinates: { lat: 33.592886, lng: -7.613869 },
   },
   {
@@ -46,7 +46,7 @@ const RESTAURANTS = [
     category: "Mexican",
     isOpen: false,
     priceRange: "$",
-    distance: "0.5 mi",
+    distance: "0.5",
     coordinates: { lat: 33.579886, lng: -7.593869 },
   },
   {
@@ -58,7 +58,7 @@ const RESTAURANTS = [
     category: "Chinese",
     isOpen: true,
     priceRange: "$$",
-    distance: "1.5 mi",
+    distance: "1.5",
     coordinates: { lat: 33.599886, lng: -7.623869 },
   },
   {
@@ -70,7 +70,7 @@ const RESTAURANTS = [
     category: "American",
     isOpen: true,
     priceRange: "$$",
-    distance: "0.7 mi",
+    distance: "0.7",
     coordinates: { lat: 33.584886, lng: -7.608869 },
   },
   {
@@ -82,7 +82,7 @@ const RESTAURANTS = [
     category: "Indian",
     isOpen: true,
     priceRange: "$$",
-    distance: "1.0 mi",
+    distance: "1.0",
     coordinates: { lat: 33.587886, lng: -7.598869 },
   },
 ]
@@ -136,7 +136,22 @@ const SearchPage = () => {
 
   const [searchParams, setSearchParams] = useSearchParams()
 
-    const city = searchParams.get("city") || ""
+  const city = searchParams.get("city") || ""
+
+  const [filters, setFilters] = useState<FilterOptions>({
+    categories: [],
+    priceRanges: [],
+    distance: null,
+  })
+
+  const handleFiltersChange = (newFilters: FilterOptions) => {
+    console.log("Filters changed:", newFilters)
+    setFilters(newFilters)
+
+    // Here you would typically fetch filtered data or update the UI
+    // For example:
+    // fetchRestaurants(newFilters)
+  }
 
   return (
     <div className="bg-softgreytheme dark:bg-bgdarktheme dark:text-white transition-colors duration-200">
@@ -191,7 +206,7 @@ const SearchPage = () => {
                 {/* Filters */}
                 {
                     shownFilters &&
-                    <FiltersSection />
+                    <FiltersSection onFiltersChange={handleFiltersChange} />
                 }
 
                 {/* Main Content */}
@@ -204,7 +219,7 @@ const SearchPage = () => {
                     </h2>
                     </div>
 
-                    <RestaurantList restaurants={restaurants} onHover={handleRestaurantHover} />
+                    <RestaurantList restaurants={restaurants} onHover={handleRestaurantHover} filtersChosen={filters}/>
 
                     {/* Pagination */}
                     <div className="mt-8">
