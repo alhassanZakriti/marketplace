@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Download, Moon, Sun } from "lucide-react"
 import Logo from "./Logo"
 import SearchBar from "../search/SearchBar"
-import { useLocation } from "react-router"
+import { Link, useLocation } from "react-router"
 
 const Header = () => {
   const [shouldShowSearchBar, setShouldShowSearchBar] = useState(false)
@@ -57,9 +57,9 @@ const Header = () => {
       <div className="lt-lg:hidden">{shouldShowSearchBar && <SearchBar />}</div>
       <div className="flex flex-col justify-center items-end gap-2">
         <div className="flex items-center gap-2 text-greentheme text-sm font-semibold">
-          <button className="hover:underline dark:text-whitetheme">For Business</button>
+          <a href="https://restaurant.tabla.ma/" target='_blank' className="hover:underline dark:text-whitetheme">For Business</a>
           <p className="text-[#00000099] dark:text-[#ffffff99]">|</p>
-          <button className="hover:underline dark:text-whitetheme">Contact Us</button>
+          <Link to={'/contact'} className="hover:underline dark:text-whitetheme">Contact Us</Link>
         </div>
         <div className="flex items-center gap-2">
           <button className="btn flex gap-2 dark:bg-darkthemeitems dark:text-textdarktheme">

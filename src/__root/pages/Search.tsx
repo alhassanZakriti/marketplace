@@ -136,7 +136,7 @@ const SearchPage = () => {
 
   const [searchParams, setSearchParams] = useSearchParams()
 
-    const city = searchParams.get("city") || "Rabat"
+    const city = searchParams.get("city") || ""
 
   return (
     <div className="bg-softgreytheme dark:bg-bgdarktheme dark:text-white transition-colors duration-200">
@@ -180,8 +180,8 @@ const SearchPage = () => {
                 </div>
 
                 {/* Current Location */}
-                <div className="flex justify-between">
-                    <div className="flex items-center mb-6 text-sm text-gray-600 dark:text-textdarktheme/70">
+                <div className={` ${city? 'justify-between':'justify-end'} flex `}>
+                    <div className={`flex items-center mb-6 text-sm text-gray-600 dark:text-textdarktheme/70 ${city? '':'hidden'}`}>
                         <MapPin size={16} className="mr-1 text-greentheme" />
                         <span>Showing results near: {city}</span>
                     </div>

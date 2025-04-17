@@ -2,6 +2,7 @@
 
 import React from "react"
 import RestaurantCard from "../cards/RestaurantCard"
+import { Link } from "react-router"
 
 const PopularSection = () => {
   const [restaurants, setRestaurants] = React.useState([
@@ -112,7 +113,7 @@ const PopularSection = () => {
       </div>
 
       <div className="text-center mt-12">
-        <button className="btn-primary">View All Restaurants</button>
+        <Link to="/search" className="btn-primary">View All Restaurants</Link>
       </div>
     </div>
   )

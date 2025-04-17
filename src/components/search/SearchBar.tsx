@@ -8,7 +8,7 @@ const SearchBar = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     const cityParam = searchParams.get("city")
     const termParam = searchParams.get("term")
-    const city = cityParam || "Rabat"
+    const city = cityParam || ""
     const term = termParam || ""
 
   const [searchTerm, setSearchTerm] = useState(term)
@@ -83,7 +83,7 @@ const SearchBar = () => {
         />
         {citySuggestions.length > 0 && isCityFocused && (
           <ul
-            className="absolute left-0 right-0 mt-2 bg-whitetheme dark:bg-darkthemeitems shadow-2xl dark:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.4)] rounded-xl overflow-hidden z-30 max-h-[250px] overflow-y-auto"
+            className="absolute left-0 right-0 mt-2 bg-whitetheme dark:bg-darkthemeitems shadow-2xl dark:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.4)] rounded-xl overflow-hidden z-30 max-h-[200px] overflow-y-auto"
             role="listbox"
           >
             <div className="p-3 border-b border-gray-100 dark:border-textdarktheme/10">
@@ -141,7 +141,7 @@ const SearchBar = () => {
         />
         {suggestions.length > 0 && isFocused && (
           <ul
-            className="absolute left-0 right-0 mt-2 bg-whitetheme dark:bg-darkthemeitems shadow-2xl dark:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.4)] rounded-xl overflow-hidden z-30 max-h-[250px] overflow-y-auto"
+            className="absolute left-0 right-0 mt-2 bg-whitetheme dark:bg-darkthemeitems shadow-2xl dark:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.4)] rounded-xl overflow-hidden z-30 max-h-[200px] overflow-y-auto"
             role="listbox"
           >
             <div className="p-3 border-b border-gray-100 dark:border-textdarktheme/10">

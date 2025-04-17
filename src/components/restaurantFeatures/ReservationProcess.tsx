@@ -93,8 +93,12 @@ const ReservationProcess: React.FC<ReservationProcessProps> = (props) => {
   const isDarkMode = typeof localStorage !== "undefined" && localStorage.getItem("darkMode") === "true"
 
   return (
-    <div className="">
-      <div className="overlay z-[309] glassmorphism" onClick={props.onClick}></div>
+    <div className="fixed inset-0 z-[300] flex items-center justify-center">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-blacktheme/20 h-full backdrop-blur-sm transition-opacity duration-300" 
+        onClick={props.onClick}>
+      </div>
       <div
         className={`popup z-[360] lt-sm:h-[70vh] sm:w-[30em] lt-sm:bottom-0 lt-sm:w-full rounded-[10px] ${
           isDarkMode ? "bg-bgdarktheme" : "bg-white"

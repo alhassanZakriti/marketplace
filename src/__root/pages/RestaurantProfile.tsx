@@ -5,6 +5,9 @@ import { Star, Wifi, Home, FileText, ChevronRight, ChevronLeft } from "lucide-re
 
 import profilePic from "../../assets/profile.png"
 import ReservationProcess from "../../components/restaurantFeatures/ReservationProcess"
+import PhotoPopup from "../../components/restaurantFeatures/PhotoPopup"
+import ReviewForm, { type ReviewData } from "../../components/restaurantFeatures/ReviewForm"
+// import ReviewForm, { type ReviewData } from "./review-form"
 
 export default function RestaurantPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
@@ -48,13 +51,13 @@ export default function RestaurantPage() {
     {
       name: "Donald C. Panda",
       rating: 4.2,
-      comment: "Fantastic! The quality keeps getting better by Tabla too.",
+      comment: "Fantastic! The quality keeps getting better.",
       image: profilePic,
     },
     {
       name: "Scott J. Williams",
       rating: 4.8,
-      comment: "Incredible! The food was amazing by Tabla too.",
+      comment: "Incredible! The food was amazing.",
       image: profilePic,
     },
   ]
@@ -168,6 +171,18 @@ export default function RestaurantPage() {
     },
   ]
 
+  const [showPhotoPopup, setShowPhotoPopup] = useState(false)
+  const [selectedPhoto, setSelectedPhoto] = useState("")
+
+
+  const [ showWhiteReview, setShowWriteReview ]=useState(false)
+
+  const handleSubmitReview = (reviewData: ReviewData) => {
+    console.log("Review submitted:", reviewData)
+    // Here you would typically send the data to your API
+    alert("Thank you for your review!")
+  }
+
 
   return (
     <div className="min-h-screen dark:text-white bg-softgreytheme dark:bg-bgdarktheme transition-colors duration-200">
@@ -181,9 +196,33 @@ export default function RestaurantPage() {
         />
       )}
 
+      {
+        showWhiteReview && (
+          <div className="fixed inset-0 z-[300] flex items-center justify-center">
+            {/* Backdrop */}
+            <div
+              className="absolute inset-0 bg-blacktheme/20 backdrop-blur-sm transition-opacity duration-300"
+              onClick={() => setShowWriteReview(false)}
+              aria-hidden="true"
+            />
+            <div className="mx-auto z-[400]  max-w-2xl p-4 bg-whitetheme dark:bg-darkthemeitems rounded-lg shadow-lg transition-all duration-300 animate-in fade-in zoom-in-95">
+              <h1 className="mb-6 text-2xl font-bold text-blacktheme dark:text-textdarktheme">Write a Review</h1>
+              <ReviewForm onSubmit={handleSubmitReview} />
+            </div>
+          </div>
+        )
+      }
+
+      {
+        showPhotoPopup && (
+          <PhotoPopup isOpen={showPhotoPopup} photoUrl={selectedPhoto} onClose={()=>{setShowPhotoPopup(false);setSelectedPhoto('')}} altText="Gallery photo" />
+        )
+
+      }
+
         {shouldShowBook&&<div className="relative flex justify-center mb-6">
           <button
-            className=" fixed z-[300] bottom-[40px] shadow-xl w-[20em] btn-special"
+            className=" fixed z-[200] bottom-[40px] shadow-xl w-[20em] btn-special"
             onClick={() => setShowReservationProcess(true)}
           >
             Book Your Table
@@ -461,10 +500,16 @@ export default function RestaurantPage() {
                   src={photo || "/placeholder.svg"}
                   alt={`User photo ${index + 1}`}
                   className="w-full h-full object-cover"
+                  onClick={() => {
+                    setSelectedPhoto(photo)
+                    setShowPhotoPopup(true)
+                  }}
                 />
-                {index === userPhotos.length - 1 && (
+                {(userPhotos.length >8 && index === userPhotos.length - 1) && (
                   <div className="absolute inset-0 bg-blacktheme/60 flex items-center justify-center">
-                    <span className="text-whitetheme font-bold">+12</span>
+                    <span className="text-whitetheme font-bold">
+                      +{userPhotos.length - 4} more {userPhotos.length-4 === 1 ?'photo':'photos'}
+                    </span>
                   </div>
                 )}
               </div>
@@ -518,16 +563,12 @@ export default function RestaurantPage() {
             ))}
           </div>
 
-          <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded-lg p-4 transition-colors">
+          <button className="btn-primary " onClick={() => setShowWriteReview(true)}>
+            Submit a Review
+          </button>
+          {/* <div className="bg-whitetheme dark:bg-darkthemeitems shadow-sm rounded-lg p-4 transition-colors">
             <h3 className="font-medium mb-3 dark:text-textdarktheme transition-colors">Write your review</h3>
-            <textarea
-              className="w-full border border-softgreytheme dark:border-textdarktheme/20 dark:bg-bgdarktheme2 rounded-md p-3 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-greentheme focus:border-transparent dark:text-textdarktheme transition-colors"
-              placeholder="Share your experience..."
-            ></textarea>
-            <div className="mt-3 flex justify-end">
-              <button className="btn-primary">Submit</button>
-            </div>
-          </div>
+          </div> */}
         </section>
       </main>
     </div>

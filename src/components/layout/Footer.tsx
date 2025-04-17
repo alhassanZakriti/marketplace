@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaEnvelope, FaPhone, FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
+import { FaEnvelope, FaPhone, FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import Logo from './Logo';
 
 const Footer = () => {
@@ -55,9 +55,9 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold text-white mb-4">Navigation</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-white transition">Home</a></li>
+              <li><a href="/" className="text-gray-400 hover:text-white transition">Home</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition">About us</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition">Contact us</a></li>
+              <li><a href="/contact" className="text-gray-400 hover:text-white transition">Contact us</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition">FAQ</a></li>
             </ul>
           </div>
@@ -81,6 +81,9 @@ const Footer = () => {
             </a>
             <a href="#" className="text-gray-400 hover:text-white transition">
               <FaInstagram size={20} />
+            </a>
+            <a href='https://www.linkedin.com/company/tabla-maroc/posts/?feedView=all' target='_blank' className="text-gray-400 hover:text-white transition">
+              <FaLinkedin size={20} />
             </a>
           </div>
         </div>
