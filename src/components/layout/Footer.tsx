@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaEnvelope, FaPhone, FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import Logo from './Logo';
+import AuthPopup from '../../__auth/AuthPopup';
 
 const Footer = () => {
+    const [isOpen, setIsOpen] = useState(false)
+    const [authResult, setAuthResult] = useState<any>(null)
+  
+    const handleSuccess = (data: any) => {
+      console.log("Authentication successful:", data)
+      setAuthResult(data)
+    }
+  
   return (
     <footer className="bg-bgdarktheme2 text-gray-100 pt-12 pb-8 px-4 sm:px-6 lg:px-8">
+      <AuthPopup isOpen={isOpen} onClose={() => setIsOpen(false)} onSuccess={handleSuccess} />
       <div className="max-w-7xl mx-auto">
         {/* Top Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-12">
@@ -34,10 +44,9 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold text-white mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-white transition">Restaurants</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition">Foods</a></li>
+              <li><a href="/search" className="text-gray-400 hover:text-white transition">Restaurants</a></li>
               <li><a href="https://restaurant.tabla.ma/" target='_blank' className="text-gray-400 hover:text-white transition">Register your restaurant</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition">Create an account</a></li>
+              <li><button onClick={()=>{setIsOpen(true)}} className="text-gray-400 hover:text-white transition">Create an account</button></li>
             </ul>
           </div>
 
@@ -45,9 +54,9 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold text-white mb-4">About</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-white transition">About us</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition">Terms & Conditions</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
+              <li><a href="/about-us" className="text-gray-400 hover:text-white transition">About us</a></li>
+              <li><a href="/terms-conditions" className="text-gray-400 hover:text-white transition">Terms & Conditions</a></li>
+              <li><a href="/privacy-policy" className="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
             </ul>
           </div>
 
@@ -56,9 +65,9 @@ const Footer = () => {
             <h3 className="text-lg font-semibold text-white mb-4">Navigation</h3>
             <ul className="space-y-2">
               <li><a href="/" className="text-gray-400 hover:text-white transition">Home</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition">About us</a></li>
+              <li><a href="/about-us" className="text-gray-400 hover:text-white transition">About us</a></li>
               <li><a href="/contact" className="text-gray-400 hover:text-white transition">Contact us</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition">FAQ</a></li>
+              <li><a href="/faq" className="text-gray-400 hover:text-white transition">FAQ</a></li>
             </ul>
           </div>
         </div>

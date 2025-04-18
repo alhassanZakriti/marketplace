@@ -24,6 +24,10 @@ import SearchBar from "./components/search/SearchBar";
 import SearchPage from "./__root/pages/Search";
 import ProfilePage from "./__root/pages/Profile";
 import ContactPage from "./__root/pages/ContactPage";
+import FAQPage from "./__root/pages/FAQPage";
+import TermsAndConditionsPage from "./__root/pages/TermsAndConditionsPage";
+import PrivacyPolicyPage from "./__root/pages/PrivacyPolicyPage";
+import AboutUsPage from "./__root/pages/AboutUsPage";
 
 function App() {
   return (
@@ -55,6 +59,10 @@ function App() {
                 <Route path="/search" element={<SearchPage />}/>
                 <Route path="/profile/:id" element={<ProfilePage />} />
                 <Route path="/contact" element={<ContactPage />} />
+                <Route path="/faq" element={<FAQPage />} />
+                <Route path="/terms-conditions" element={<TermsAndConditionsPage />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+                <Route path="/about-us" element={<AboutUsPage />} />
               </Route>
             </Routes>
             <RefineKbar />
