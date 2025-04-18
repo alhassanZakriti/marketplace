@@ -1,17 +1,63 @@
 "use client"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
+import type React from "react"
+
+import { useState, useEffect } from "react"
 import SearchBar from "../search/SearchBar"
 import SearchBarMobile from "../search/SearchBarMobile"
 import heroImage from "../../assets/hero4.jpg"
 import locationIcon from "../../assets/location.svg"
+import { ChevronDown } from "lucide-react"
 
 function HomeHero() {
+  const [showScrollButton, setShowScrollButton] = useState(true)
+
+  useEffect(() => {
+    // Function to handle scroll events
+    const handleScroll = () => {
+      // Show button only when at the top of the page (within first viewport)
+      // Hide when scrolled down
+      if (window.scrollY > window.innerHeight * 0.5) {
+        setShowScrollButton(false)
+      } else {
+        setShowScrollButton(true)
+      }
+    }
+
+    // Initial check
+    handleScroll()
+
+    // Add scroll event listener
+    window.addEventListener("scroll", handleScroll)
+
+    // Clean up
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [])
+
+  const scrollToPopular = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+    const popularSection = document.getElementById("popular")
+
+    if (popularSection) {
+      popularSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      })
+    }
+  }
+
   return (
-    <section className="relative  min-h-screen md:h-[90vh] w-full overflow-hidden">
+    <section className="relative min-h-screen md:h-[90vh] w-full overflow-hidden">
       {/* Background Image with Overlay */}
-      <div className="absolute p-0 inset-0  z-0">
+      <div className="absolute p-0 inset-0 z-0">
         <div className="absolute inset-0 bg-black/40 z-10"></div>
-        <img src={heroImage} className="w-full  h-full object-cover object-center" alt="Restaurant background" />
+        <img
+          src={heroImage || "/placeholder.svg"}
+          className="w-full h-full object-cover object-center"
+          alt="Restaurant background"
+        />
       </div>
 
       {/* Content Container */}
@@ -26,7 +72,7 @@ function HomeHero() {
           >
             {/* Location Badge */}
             <div className="inline-flex items-center gap-2 px-4] py-1.5 px-2 lt-md:mt-20 bg-white/10 backdrop-blur-sm rounded-full mb-4">
-              <img src={locationIcon} className="w-4 h-4" alt="Location icon" />
+              <img src={locationIcon || "/placeholder.svg"} className="w-4 h-4" alt="Location icon" />
               <span className="text-white font-medium text-sm">at Tabla.ma</span>
             </div>
 
@@ -34,11 +80,6 @@ function HomeHero() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight mb-6 max-w-4xl mx-auto">
               Discover Your Next Table
             </h1>
-
-            {/* Optional Subheading - Uncomment if needed */}
-            {/* <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto">
-              Find the perfect restaurant for any occasion. Book your table in just a few clicks.
-            </p> */}
           </motion.div>
 
           {/* Search Components */}
@@ -60,6 +101,33 @@ function HomeHero() {
           </motion.div>
         </div>
       </div>
+
+      {/* Scroll Button - Using AnimatePresence for smooth transitions */}
+      <AnimatePresence>
+        {showScrollButton && (
+          <motion.div
+            className="absolute bottom-16 left-0 right-0 flex justify-center z-20"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.3 }}
+          >
+            <a
+              href="#popular"
+              onClick={scrollToPopular}
+              className="flex flex-col items-center gap-2 cursor-pointer group"
+              aria-label="Scroll to popular restaurants"
+            >
+              <span className="text-white text-sm font-medium opacity-80 group-hover:opacity-100 transition-opacity">
+                Explore More
+              </span>
+              <div className="p-3 bg-white/20 backdrop-blur-sm rounded-full group-hover:bg-white/30 transition-all duration-300 shadow-lg">
+                <ChevronDown size={24} className="text-white animate-bounce" />
+              </div>
+            </a>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Bottom Curve */}
       <div className="absolute bottom-0 left-0 right-0 h-8 bg-white dark:bg-bgdarktheme rounded-t-[2rem] z-10"></div>
