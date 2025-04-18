@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ChevronDown } from 'lucide-react'
 
 interface FAQItem {
@@ -9,6 +9,11 @@ interface FAQItem {
 }
 
 export default function FAQPage() {
+
+  useEffect(() => {
+    document.title = "FAQ - Tabla | Taste Morocco's Best"
+  }, [])
+
   const [openItem, setOpenItem] = useState<number | null>(null)
 
   const toggleItem = (index: number) => {

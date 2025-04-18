@@ -1,4 +1,9 @@
+import { useEffect } from "react"
+
 export default function PrivacyPolicyPage() {
+  useEffect(() => {
+    document.title = "Privacy Policy - Tabla | Taste Morocco's Best"
+  }, [])
     return (
       <div className="max-w-4xl mx-auto px-4 py-12 bg-whitetheme dark:bg-bgdarktheme min-h-screen">
         <h1 className="text-3xl font-bold text-blacktheme dark:text-textdarktheme mb-8">Privacy Policy</h1>

@@ -1,4 +1,11 @@
+import { useEffect } from "react"
+
 export default function AboutUsPage() {
+
+    useEffect(() => {
+        document.title = "About Us - Tabla | Taste Morocco's Best"
+      }, [])
+
     return (
       <div className="bg-whitetheme dark:bg-bgdarktheme min-h-screen">
         {/* Hero Section */}

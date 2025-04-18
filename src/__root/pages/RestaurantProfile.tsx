@@ -7,9 +7,17 @@ import profilePic from "../../assets/profile.png"
 import ReservationProcess from "../../components/restaurantFeatures/ReservationProcess"
 import PhotoPopup from "../../components/restaurantFeatures/PhotoPopup"
 import ReviewForm, { type ReviewData } from "../../components/restaurantFeatures/ReviewForm"
+import { useParams } from "react-router"
 // import ReviewForm, { type ReviewData } from "./review-form"
 
 export default function RestaurantPage() {
+
+  const { id } = useParams()
+
+  useEffect(() => {
+    document.title = `${id} - Tabla | Taste Morocco's Best`
+  }, [])
+
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [showAllMenu, setShowAllMenu] = useState(false)
   const [showReservationProcess, setShowReservationProcess] = useState(false)

@@ -88,6 +88,10 @@ const RESTAURANTS = [
 ]
 
 const SearchPage = () => {
+
+  useEffect(() => {
+    document.title = "Search - Tabla | Taste Morocco's Best"
+  }, [])
   const [restaurants, setRestaurants] = useState(RESTAURANTS)
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedRestaurant, setSelectedRestaurant] = useState<string | null>(null)

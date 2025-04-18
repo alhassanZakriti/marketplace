@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 type FormData = {
@@ -18,6 +18,11 @@ const subjects = [
 ];
 
 export default function ContactPage() {
+
+    useEffect(() => {
+        document.title = "Contact Us - Tabla | Taste Morocco's Best"
+      }, [])
+    
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);

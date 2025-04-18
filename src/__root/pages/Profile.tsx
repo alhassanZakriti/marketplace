@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Sidebar } from "../../components/profile/SideBar"
 import { MyInformation } from "../../components/profile/MyInformations"
 import { MyReservations } from "../../components/profile/MyReservations"
@@ -10,6 +10,11 @@ import { MyFavorites } from "../../components/profile/MyFavorites"
 type ActiveSection = "information" | "reservations" | "favorites"
 
 export const ProfilePage: React.FC = () => {
+
+    useEffect(() => {
+        document.title = "Profile - Tabla | Taste Morocco's Best"
+    }, [])
+
   const [activeSection, setActiveSection] = useState<ActiveSection>("information")
 
   const renderActiveSection = () => {
