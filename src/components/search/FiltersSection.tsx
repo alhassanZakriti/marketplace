@@ -87,7 +87,7 @@ const FiltersSection: React.FC<FiltersSectionProps> = ({ onFiltersChange, classN
         {allActiveFilters.length > 0 && (
           <button
             onClick={clearFilters}
-            className="text-sm text-greentheme hover:underline flex items-center"
+            className="text-sm text-redtheme hover:underline flex items-center"
             aria-label="Clear all filters"
           >
             <X size={16} className="mr-1" />
@@ -102,7 +102,7 @@ const FiltersSection: React.FC<FiltersSectionProps> = ({ onFiltersChange, classN
           {allActiveFilters.map((filter) => (
             <div
               key={filter}
-              className="bg-softgreentheme dark:bg-greentheme/20 text-greentheme px-3 py-1 rounded-full text-sm flex items-center"
+              className="bg-greentheme dark:bg-greentheme text-whitetheme px-3 py-1 rounded-full text-sm flex items-center"
             >
               {filter}
               <button

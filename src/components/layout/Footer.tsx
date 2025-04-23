@@ -14,7 +14,7 @@ const Footer = () => {
   
   return (
     <footer className="bg-bgdarktheme2 text-gray-100 pt-12 pb-8 px-4 sm:px-6 lg:px-8">
-      <AuthPopup isOpen={isOpen} onClose={() => setIsOpen(false)} onSuccess={handleSuccess} />
+      <AuthPopup authMode='signup' isOpen={isOpen} onClose={() => setIsOpen(false)} onSuccess={handleSuccess} />
       <div className="max-w-7xl mx-auto">
         {/* Top Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-12">

@@ -17,10 +17,11 @@ interface AuthPopupProps {
   isOpen: boolean
   onClose: () => void
   onSuccess?: (data: AuthFormData) => void
+  authMode?: AuthMode
 }
 
-export default function AuthPopup({ isOpen, onClose, onSuccess }: AuthPopupProps) {
-  const [mode, setMode] = useState<AuthMode>("login")
+export default function AuthPopup({ isOpen, onClose, onSuccess, authMode }: AuthPopupProps) {
+  const [mode, setMode] = useState<AuthMode>(authMode || "login")
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
